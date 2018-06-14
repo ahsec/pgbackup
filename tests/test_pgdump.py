@@ -19,3 +19,16 @@ def test_dump_handles_oserror(mocker):
     mocker.patch('subprocess.Popen', side_effect=OSError("no such file"))
     with pytest.raises(SystemExit):
         pgdump.dump(url)
+
+def test_dump_file_name_without_timestamp():
+    """
+    pgdump.db_file_name returns the name of the database
+    """
+    assert pgdump.dump_file_name(url) == "db_one.sql"
+
+def test_dump_file_name_with_timestamp():
+    """
+    pgdump.db_file_name returns the name of the database
+    """
+    timestamp = "2017-12-03T13:14:19"
+    assert pgdump.dump_file_name(url, timestamp) == "db_one-2017-12-03T13:14:19.sql"
